@@ -57,47 +57,20 @@ public class NovatecTest {
         clickApplyButton();
     }
 
-    private static void openMainPage() {
+    private static void openMainPage() throws InterruptedException {
         webDriver.get(MAIN_PAGE_URL);
 
-        WebElement acceptCookieButton = webDriver.findElement(By.xpath(ACCEPT_COOKIE_BUTTON_XPATH));
-
-        assertTrue("Accept cookie button is not visible", acceptCookieButton.isDisplayed());
-
-        acceptCookieButton.click();
-
-        assertFalse("Accept cookie button is still visible", acceptCookieButton.isDisplayed());
+        clickAndCloseElementByXpath(ACCEPT_COOKIE_BUTTON_XPATH, "Accept cookie button");
     }
 
     private static void openMenu() throws InterruptedException {
-        WebElement menuSandwich = webDriver.findElement(By.xpath(MENU_TOGGLE_XPATH));
-
-        assertTrue("Menu is not visible", menuSandwich.isDisplayed());
-
-        menuSandwich.click();
-
-        Thread.sleep(1000);
+        clickOnElementByXpath(MENU_TOGGLE_XPATH, "Menu");
     }
 
     private static void openCareerPage() throws InterruptedException {
-        WebElement careerLink = webDriver.findElement(By.xpath(CAREER_LINK_XPATH));
+        clickOnElementByXpath(CAREER_LINK_XPATH, "Career link");
 
-        Thread.sleep(1000);
-
-        assertTrue("Career link is not visible", careerLink.isDisplayed());
-
-        careerLink.click();
-
-        // decline cookies
-        WebElement declineCookieButton = webDriver.findElement(By.xpath(CAREER_DECLINE_COOKIE_BUTTON_XPATH));
-
-        assertTrue(declineCookieButton.isDisplayed());
-
-        declineCookieButton.click();
-
-        Thread.sleep(1000);
-
-        assertFalse(declineCookieButton.isDisplayed());
+        clickAndCloseElementByXpath(CAREER_DECLINE_COOKIE_BUTTON_XPATH, "Decline Cookie Button");
     }
 
     private static void clickOnVacancy() throws InterruptedException {
@@ -109,13 +82,7 @@ public class NovatecTest {
 
         Thread.sleep(5 * 1000);
 
-        WebElement jobItem = webDriver.findElement(By.xpath(JOB_ITEM_XPATH));
-
-        assertTrue(jobItem.isDisplayed());
-
-        jobItem.click();
-
-        Thread.sleep(1000);
+        clickOnElementByXpath(JOB_ITEM_XPATH, "Job item");
     }
 
     private static void clickApplyButton() throws InterruptedException {
@@ -128,5 +95,27 @@ public class NovatecTest {
         Thread.sleep(1000);
 
         assertFalse(applyButton.isDisplayed());
+    }
+
+    private static void clickOnElementByXpath(String xpath, String elementDescription) throws InterruptedException {
+        WebElement element = webDriver.findElement(By.xpath(xpath));
+
+        assertTrue(elementDescription + " is not visible", element.isDisplayed());
+
+        element.click();
+
+        Thread.sleep(1000);
+    }
+
+    private static void clickAndCloseElementByXpath(String xpath, String elementDescription) throws InterruptedException {
+        WebElement element = webDriver.findElement(By.xpath(xpath));
+
+        assertTrue(elementDescription + " is not visible", element.isDisplayed());
+
+        element.click();
+
+        Thread.sleep(1000);
+
+        assertFalse(elementDescription + " is still visible", element.isDisplayed());
     }
 }
